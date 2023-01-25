@@ -1,0 +1,23 @@
+
+fast-date-typing {
+    border: 1px solid #000;
+    display: inline-block;
+    padding: 5px;
+    ::selection {
+        background: transparent;
+    }
+    .datetime-edit-fields-wrapper {
+        display: flex;
+        user-select: none;
+    }
+    div{
+        margin: 0 5px;
+    }
+    span {
+        &:focus {
+            background-color: #0078d7;
+            color: #fff;
+            outline: none;
+        }
+    }
+}
