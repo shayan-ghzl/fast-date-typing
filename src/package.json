@@ -1,0 +1,26 @@
+{
+  "name": "fast-date-typing",
+  "version": "0.0.1",
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shayan-ghzl/fast-date-typing/issues"
+  },
+  "author": {
+    "name": "Shayan Ghazali",
+    "email": "shayan97.tti@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shayan-ghzl/fast-date-typing.git"
+  },
+  "peerDependencies": {
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

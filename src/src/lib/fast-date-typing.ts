@@ -277,4 +277,4 @@ yearBlur(){
     DateInput
   ]
 })
-export class DateInputModule { }
+export class FastDateTyping { }
