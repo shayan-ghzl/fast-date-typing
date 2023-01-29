@@ -33,7 +33,7 @@ yearBlur(){
   this.selectionChange.emit(this.yearValue + '-' + this.monthValue + '-' + this.dayValue);
 }
 
-  pesian = true;
+  @Input() pesian = false;
   @Input() separator = '/';
 
   @ViewChild('yearInput') yearInputViewChild: ElementRef<HTMLElement>;

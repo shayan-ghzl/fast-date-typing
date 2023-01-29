@@ -43,27 +43,27 @@
           "style": "scss"
         }
       },
-      "root": "projects/showcase",
-      "sourceRoot": "projects/showcase/src",
+      "root": "showcase",
+      "sourceRoot": "showcase/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/showcase",
-            "index": "projects/showcase/src/index.html",
-            "main": "projects/showcase/src/main.ts",
+            "index": "showcase/src/index.html",
+            "main": "showcase/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "projects/showcase/tsconfig.app.json",
+            "tsConfig": "showcase/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/showcase/src/favicon.ico",
-              "projects/showcase/src/assets"
+              "showcase/src/favicon.ico",
+              "showcase/src/assets"
             ],
             "styles": [
-              "projects/showcase/src/styles.scss"
+              "showcase/src/styles.scss"
             ],
             "scripts": []
           },
@@ -119,14 +119,14 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "projects/showcase/tsconfig.spec.json",
+            "tsConfig": "showcase/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/showcase/src/favicon.ico",
-              "projects/showcase/src/assets"
+              "showcase/src/favicon.ico",
+              "showcase/src/assets"
             ],
             "styles": [
-              "projects/showcase/src/styles.scss"
+              "showcase/src/styles.scss"
             ],
             "scripts": []
           }
