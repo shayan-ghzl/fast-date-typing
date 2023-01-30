@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, NgModule, OnChanges, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
 
 @Component({
   selector: 'fast-date-typing',
@@ -11,11 +9,11 @@ import { BrowserModule } from '@angular/platform-browser';
           {{yearValue}}
         </span>
         <div>{{separator}}</div>
-        <span #monthInput role="spinbutton" aria-placeholder="mm" aria-valuemin="1" aria-valuemax="12" aria-label="Month" tabindex="0" (focus)="temp = null" (blur)="selectionChange.emit(yearValue + '-' + monthValue + '-' + dayValue)" (keydown)="monthSet($event)">
+        <span #monthInput role="spinbutton" aria-placeholder="mm" aria-valuemin="1" aria-valuemax="12" aria-label="Month" tabindex="0" (focus)="temp = null" (blur)="valueChange.emit(yearValue + '-' + monthValue + '-' + dayValue)" (keydown)="monthSet($event)">
           {{monthValue}}
         </span>
         <div>{{separator}}</div>
-        <span #dayInput role="spinbutton" aria-placeholder="dd" aria-valuemin="1" aria-valuemax="31" aria-label="Day" tabindex="0" (focus)="temp = null" (blur)="selectionChange.emit(yearValue + '-' + monthValue + '-' + dayValue)" (keydown)="daySet($event)">
+        <span #dayInput role="spinbutton" aria-placeholder="dd" aria-valuemin="1" aria-valuemax="31" aria-label="Day" tabindex="0" (focus)="temp = null" (blur)="valueChange.emit(yearValue + '-' + monthValue + '-' + dayValue)" (keydown)="daySet($event)">
           {{dayValue}}
         </span>
       </div>
@@ -30,25 +28,24 @@ export class DateInput implements OnChanges{
 
 yearBlur(){
   (+this.yearValue == 0) ? this.yearValue = '0001' : ''
-  this.selectionChange.emit(this.yearValue + '-' + this.monthValue + '-' + this.dayValue);
+  this.valueChange.emit(this.yearValue + '-' + this.monthValue + '-' + this.dayValue);
 }
 
-  @Input() pesian = false;
   @Input() separator = '/';
 
   @ViewChild('yearInput') yearInputViewChild: ElementRef<HTMLElement>;
   @ViewChild('monthInput') monthInputViewChild: ElementRef<HTMLElement>;
   @ViewChild('dayInput') dayInputViewChild: ElementRef<HTMLElement>;
 
-  @Output() selectionChange: EventEmitter<string> = new EventEmitter();
-  @Input() selection = 'yyyy-mm-dd';
+  @Output() valueChange: EventEmitter<string> = new EventEmitter();
+  @Input() value = 'yyyy-mm-dd';
   yearValue = 'yyyy';
   monthValue = 'mm';
   dayValue = 'dd';
   ngOnChanges(changes: SimpleChanges): void {
-    this.yearValue = this.selection.split('-')[0];
-    this.monthValue = this.selection.split('-')[1];
-    this.dayValue = this.selection.split('-')[2];
+    this.yearValue = this.value.split('-')[0];
+    this.monthValue = this.value.split('-')[1];
+    this.dayValue = this.value.split('-')[2];
   }
   // this.year = new YearControl({ value: '', disabled: false }, [Validators.pattern(/^(13|14)\d\d$/)]);
   // this.month = new MonthControl({ value: '', disabled: false }, [Validators.pattern(/^(0[1-9]|1[0-2])$/)]);
@@ -94,17 +91,11 @@ yearBlur(){
       case 'ArrowUp':
         if (!isNaN(+this.yearValue) && +this.yearValue != 9999) {
           this.yearValue = (+this.yearValue + 1).toString().padStart(4, '0');
-          if (this.pesian) {
-            this.checkDayPersianRule(this.dayValue[1]);
-          }
         }
         break;
       case 'ArrowDown':
         if (!isNaN(+this.yearValue) && +this.yearValue != 1) {
           this.yearValue = (+this.yearValue - 1).toString().padStart(4, '0');
-          if (this.pesian) {
-            this.checkDayPersianRule(this.dayValue[1]);
-          }
         }
         break;
       case 'ArrowRight':
@@ -135,9 +126,7 @@ yearBlur(){
           if (this.yearValue == '0000') {
             this.yearValue = '0001';
           }
-          if (this.pesian) {
-            this.checkDayPersianRule(inputNumber);
-          }
+    
           this.temp = null;
           this.focusOnMonth();
           break;
@@ -152,17 +141,11 @@ yearBlur(){
       case 'ArrowUp':
         if (!isNaN(+this.monthValue) && +this.monthValue != 12) {
           this.monthValue = (+this.monthValue + 1).toString().padStart(2, '0');
-          if (this.pesian) {
-            this.checkDayPersianRule(this.dayValue[1]);
-          }
         }
         break;
       case 'ArrowDown':
         if (!isNaN(+this.monthValue) && +this.monthValue != 1) {
           this.monthValue = (+this.monthValue - 1).toString().padStart(2, '0');
-          if (this.pesian) {
-            this.checkDayPersianRule(this.dayValue[1]);
-          }
         }
         break;
       case 'ArrowRight':
@@ -189,19 +172,6 @@ yearBlur(){
       this.temp = null;
       this.focusOnDay();
     }
-    if (this.pesian) {
-      this.checkDayPersianRule(inputNumber);
-    }
-
-  }
-  checkDayPersianRule(inputNumber: string) {
-    if (+this.dayValue > 29) {
-      if (this.monthValue == '12' && +this.yearValue % 4 != 2) {
-        this.dayValue = '29';
-      } else if (inputNumber == '1' && +this.monthValue > 6) {
-        this.dayValue = '30';
-      }
-    }
   }
 
   daySet(evt: KeyboardEvent) {
@@ -210,17 +180,11 @@ yearBlur(){
       case 'ArrowUp':
         if (!isNaN(+this.dayValue) && +this.dayValue != 31) {
           this.dayValue = (+this.dayValue + 1).toString().padStart(2, '0');
-          if (this.pesian) {
-            this.checkDayPersianRule(this.dayValue[1]);
-          }
         }
         break;
       case 'ArrowDown':
         if (!isNaN(+this.dayValue) && +this.dayValue != 1) {
           this.dayValue = (+this.dayValue - 1).toString().padStart(2, '0');
-          if (this.pesian) {
-            this.checkDayPersianRule(this.dayValue[1]);
-          }
         }
         break;
       case 'ArrowRight':
@@ -243,14 +207,6 @@ yearBlur(){
           this.dayValue = '0' + inputNumber;
         } else {
           this.dayValue = this.temp + inputNumber;
-          if (this.pesian) {
-            if (this.monthValue == '12' && +this.yearValue % 4 != 2) {
-              this.dayValue = '29';
-            } else if (inputNumber == '1' && +this.monthValue > 6) {
-              this.dayValue = '30';
-            }
-          }
-
         }
       } else {
         this.dayValue = (this.temp + inputNumber == '00') ? '01' : this.temp + inputNumber;
@@ -260,10 +216,6 @@ yearBlur(){
     }
   }
 
-  checkMonthAndKabiseh() {
-
-  }
-
 }
 
 @NgModule({
@@ -271,7 +223,6 @@ yearBlur(){
     DateInput
   ],
   imports: [
-    BrowserModule
   ],
   exports: [
     DateInput
