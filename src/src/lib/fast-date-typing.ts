@@ -5,15 +5,15 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Ng
   template: `
     <div class="datetime-edit" datetimeformat="M/d/yyyy">
       <div class="datetime-edit-fields-wrapper" (mousemove)="moveMouse()" (click)="moveMouse()">
-        <span #yearInput role="spinbutton" aria-placeholder="yyyy" aria-valuemin="1000" aria-valuemax="9999" aria-label="Year" tabindex="0" (focus)="temp = null; datetimeFocused = true;" (blur)="datetimeFocused = false;yearBlur()" (keydown)="yearSet($event)">
+        <span contenteditable="true" #yearInput role="spinbutton" aria-placeholder="yyyy" aria-valuemin="1000" aria-valuemax="9999" aria-label="Year" tabindex="0" (focus)="temp = null; datetimeFocused = true;" (blur)="datetimeFocused = false;yearBlur()" (keydown)="yearSet($event)">
           {{yearValue}}
         </span>
         <div>{{separator}}</div>
-        <span #monthInput role="spinbutton" aria-placeholder="mm" aria-valuemin="1" aria-valuemax="12" aria-label="Month" tabindex="0" (focus)="temp = null; datetimeFocused = true;" (blur)="datetimeFocused = false;valueChange.emit(yearValue + '-' + monthValue + '-' + dayValue)" (keydown)="monthSet($event)">
+        <span contenteditable="true" #monthInput role="spinbutton" aria-placeholder="mm" aria-valuemin="1" aria-valuemax="12" aria-label="Month" tabindex="0" (focus)="temp = null; datetimeFocused = true;" (blur)="datetimeFocused = false;valueChange.emit(yearValue + '-' + monthValue + '-' + dayValue)" (keydown)="monthSet($event)">
           {{monthValue}}
         </span>
         <div>{{separator}}</div>
-        <span #dayInput role="spinbutton" aria-placeholder="dd" aria-valuemin="1" aria-valuemax="31" aria-label="Day" tabindex="0" (focus)="temp = null; datetimeFocused = true;" (blur)="datetimeFocused = false;valueChange.emit(yearValue + '-' + monthValue + '-' + dayValue)" (keydown)="daySet($event)">
+        <span contenteditable="true" #dayInput role="spinbutton" aria-placeholder="dd" aria-valuemin="1" aria-valuemax="31" aria-label="Day" tabindex="0" (focus)="temp = null; datetimeFocused = true;" (blur)="datetimeFocused = false;valueChange.emit(yearValue + '-' + monthValue + '-' + dayValue)" (keydown)="daySet($event)">
           {{dayValue}}
         </span>
       </div>
