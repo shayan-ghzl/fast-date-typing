@@ -84,7 +84,7 @@ export class DateInput implements OnChanges {
 
   afterDayFocus() {
     // this.dayInputViewChild.nativeElement.blur();
-    
+
   }
 
   beforeYearFocus() {
@@ -94,6 +94,8 @@ export class DateInput implements OnChanges {
   temp: string;
 
   yearSet(evt: KeyboardEvent) {
+    evt.preventDefault();
+    evt.stopPropagation();
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
@@ -144,6 +146,8 @@ export class DateInput implements OnChanges {
   }
 
   monthSet(evt: KeyboardEvent) {
+    evt.preventDefault();
+    evt.stopPropagation();
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
@@ -183,6 +187,8 @@ export class DateInput implements OnChanges {
   }
 
   daySet(evt: KeyboardEvent) {
+    evt.preventDefault();
+    evt.stopPropagation();
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
