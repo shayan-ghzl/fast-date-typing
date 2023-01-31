@@ -32,8 +32,12 @@ fast-date-typing {
         user-select: none;
     }
 
-    div {
+    .separator {
         margin: 0 3px;
+    }
+
+    div {
+        display: inline-block;
     }
 
     span {
