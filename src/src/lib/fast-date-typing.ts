@@ -5,17 +5,23 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Ng
   template: `
     <div class="datetime-edit" datetimeformat="M/d/yyyy">
       <div class="datetime-edit-fields-wrapper" (mousemove)="moveMouse()" (click)="moveMouse()">
-        <span contenteditable="true" #yearInput role="spinbutton" aria-placeholder="yyyy" aria-valuemin="1000" aria-valuemax="9999" aria-label="Year" tabindex="0" (focus)="temp = null; datetimeFocused = true;" (blur)="datetimeFocused = false;yearBlur()" (keydown)="yearSet($event)">
-          {{yearValue}}
-        </span>
-        <div>{{separator}}</div>
-        <span contenteditable="true" #monthInput role="spinbutton" aria-placeholder="mm" aria-valuemin="1" aria-valuemax="12" aria-label="Month" tabindex="0" (focus)="temp = null; datetimeFocused = true;" (blur)="datetimeFocused = false;valueChange.emit(yearValue + '-' + monthValue + '-' + dayValue)" (keydown)="monthSet($event)">
-          {{monthValue}}
-        </span>
-        <div>{{separator}}</div>
-        <span contenteditable="true" #dayInput role="spinbutton" aria-placeholder="dd" aria-valuemin="1" aria-valuemax="31" aria-label="Day" tabindex="0" (focus)="temp = null; datetimeFocused = true;" (blur)="datetimeFocused = false;valueChange.emit(yearValue + '-' + monthValue + '-' + dayValue)" (keydown)="daySet($event)">
-          {{dayValue}}
-        </span>
+        <div>
+          <span #yearInput role="spinbutton" contentEditable="true" aria-placeholder="yyyy" aria-valuemin="1000" aria-valuemax="9999" aria-label="Year" tabindex="0" (focus)="spanFocus()" (blur)="setValue()" (keydown)="yearSet($event)">
+            {{yearValue}}
+          </span>
+        </div>
+        <div class="separator">{{separator}}</div>
+        <div>
+          <span #monthInput role="spinbutton" contentEditable="true" aria-placeholder="mm" aria-valuemin="1" aria-valuemax="12" aria-label="Month" tabindex="0" (focus)="spanFocus()" (blur)="setValue()" (keydown)="monthSet($event)">
+            {{monthValue}}
+          </span>
+        </div>
+        <div class="separator">{{separator}}</div>
+        <div>
+          <span #dayInput role="spinbutton" contentEditable="true" aria-placeholder="dd" aria-valuemin="1" aria-valuemax="31" aria-label="Day" tabindex="0" (focus)="spanFocus()" (blur)="setValue()" (keydown)="daySet($event)">
+            {{dayValue}}
+          </span>
+        </div>
       </div>
     </div>
 `,
@@ -29,45 +35,40 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Ng
 })
 export class DateInput implements OnChanges {
 
-  datetimeFocused = false;
-  yearBlur() {
-    (+this.yearValue == 0) ? this.yearValue = '0001' : ''
-    this.valueChange.emit(this.yearValue + '-' + this.monthValue + '-' + this.dayValue);
-  }
+  @ViewChild('yearInput') yearInputViewChild!: ElementRef<HTMLElement>;
+  @ViewChild('monthInput') monthInputViewChild!: ElementRef<HTMLElement>;
+  @ViewChild('dayInput') dayInputViewChild!: ElementRef<HTMLElement>;
 
   @Input() separator = '/';
-
-  @ViewChild('yearInput') yearInputViewChild: ElementRef<HTMLElement>;
-  @ViewChild('monthInput') monthInputViewChild: ElementRef<HTMLElement>;
-  @ViewChild('dayInput') dayInputViewChild: ElementRef<HTMLElement>;
-
-  @Output() valueChange: EventEmitter<string> = new EventEmitter();
   @Input() value = 'yyyy-mm-dd';
+  @Output() valueChange: EventEmitter<string> = new EventEmitter();
 
   yearValue = 'yyyy';
   monthValue = 'mm';
   dayValue = 'dd';
+  datetimeFocused = false;
+  temp = '';
+
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.yearValue = this.value.split('-')[0];
-    this.monthValue = this.value.split('-')[1];
-    this.dayValue = this.value.split('-')[2];
+    let val = this.value.split('-');
+    this.yearValue = val[0];
+    this.monthValue = val[1];
+    this.dayValue = val[2];
   }
 
-  // this.year = new YearControl({ value: '', disabled: false }, [Validators.pattern(/^(13|14)\d\d$/)]);
-  // this.month = new MonthControl({ value: '', disabled: false }, [Validators.pattern(/^(0[1-9]|1[0-2])$/)]);
-  // this.day = new DayControl({ value: '', disabled: false }, [Validators.pattern(/^(0[1-9]|1[0-2])$/)]);
+  setValue() {
+    this.datetimeFocused = false;
+    this.valueChange.emit(this.yearValue + '-' + this.monthValue + '-' + this.dayValue)
+  }
 
-  // selectAll(element: HTMLElement) {
-  //   let selection = window.getSelection();
-  //   let range = document.createRange();
-  //   range.selectNodeContents(element);
-  //   selection.removeAllRanges();
-  //   selection.addRange(range);
-  // }
+  spanFocus() {
+    this.temp = '';
+    this.datetimeFocused = true;
+  }
 
   moveMouse() {
-    window.getSelection().removeAllRanges();
+    window.getSelection()?.removeAllRanges();
   }
 
   focusOnYear() {
@@ -84,14 +85,12 @@ export class DateInput implements OnChanges {
 
   afterDayFocus() {
     // this.dayInputViewChild.nativeElement.blur();
-
   }
 
   beforeYearFocus() {
     // this.yearInputViewChild.nativeElement.blur();
   }
 
-  temp: string;
 
   yearSet(evt: KeyboardEvent) {
     evt.preventDefault();
@@ -99,12 +98,12 @@ export class DateInput implements OnChanges {
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
-        if (!isNaN(+this.yearValue) && +this.yearValue != 9999) {
+        if (this.yearValue != '9999') {
           this.yearValue = (+this.yearValue + 1).toString().padStart(4, '0');
         }
         break;
       case 'ArrowDown':
-        if (!isNaN(+this.yearValue) && +this.yearValue != 1) {
+        if (this.yearValue != '0001') {
           this.yearValue = (+this.yearValue - 1).toString().padStart(4, '0');
         }
         break;
@@ -118,31 +117,27 @@ export class DateInput implements OnChanges {
     if (!/^\d+$/.test(inputNumber)) {
       return;
     }
-    if (this.temp == null) {
-      this.yearValue = '000' + inputNumber;
-      this.temp = inputNumber;
-    } else {
-      switch (this.temp.length) {
-        case 1:
-          this.yearValue = '00' + this.temp + inputNumber;
-          this.temp = this.temp + inputNumber;
-          break;
-        case 2:
-          this.yearValue = '0' + this.temp + inputNumber;
-          this.temp = this.temp + inputNumber;
-          break;
-        case 3:
-          this.yearValue = this.temp + inputNumber;
-          if (this.yearValue == '0000') {
-            this.yearValue = '0001';
-          }
-
-          this.temp = null;
-          this.focusOnMonth();
-          break;
-
+    if (this.temp.length != 3) {
+      if (+this.temp == 0 && inputNumber == '0') {
+        this.yearValue = '0001';
+      } else {
+        this.yearValue = (this.temp + inputNumber).toString().padStart(4, '0');
       }
+      this.temp = this.temp + inputNumber;
+    } else {
+      if (+this.temp == 0) {
+        if (inputNumber == '0') {
+          this.yearValue = '0001';
+        } else {
+          this.yearValue = '000' + inputNumber;
+        }
+      } else {
+        this.yearValue = this.temp + inputNumber;
+      }
+      this.temp = '';
+      this.focusOnMonth();
     }
+
   }
 
   monthSet(evt: KeyboardEvent) {
@@ -151,12 +146,12 @@ export class DateInput implements OnChanges {
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
-        if (!isNaN(+this.monthValue) && +this.monthValue != 12) {
+        if (this.monthValue != '12') {
           this.monthValue = (+this.monthValue + 1).toString().padStart(2, '0');
         }
         break;
       case 'ArrowDown':
-        if (!isNaN(+this.monthValue) && +this.monthValue != 1) {
+        if (this.monthValue != '01') {
           this.monthValue = (+this.monthValue - 1).toString().padStart(2, '0');
         }
         break;
@@ -170,7 +165,7 @@ export class DateInput implements OnChanges {
     if (!/^\d+$/.test(inputNumber)) {
       return;
     }
-    if (this.temp == null) {
+    if (this.temp == '') {
       this.monthValue = '0' + ((inputNumber == '0') ? '1' : inputNumber);
       (+inputNumber < 2) ? this.temp = inputNumber : this.focusOnDay();
     } else {
@@ -181,7 +176,7 @@ export class DateInput implements OnChanges {
       } else {
         this.monthValue = this.temp + inputNumber;
       }
-      this.temp = null;
+      this.temp = '';
       this.focusOnDay();
     }
   }
@@ -192,12 +187,12 @@ export class DateInput implements OnChanges {
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
-        if (!isNaN(+this.dayValue) && +this.dayValue != 31) {
+        if (this.dayValue != '31') {
           this.dayValue = (+this.dayValue + 1).toString().padStart(2, '0');
         }
         break;
       case 'ArrowDown':
-        if (!isNaN(+this.dayValue) && +this.dayValue != 1) {
+        if (this.dayValue != '01') {
           this.dayValue = (+this.dayValue - 1).toString().padStart(2, '0');
         }
         break;
@@ -212,7 +207,7 @@ export class DateInput implements OnChanges {
     if (!/^\d+$/.test(inputNumber)) {
       return;
     }
-    if (this.temp == null) {
+    if (this.temp == '') {
       this.dayValue = '0' + ((inputNumber == '0') ? '1' : inputNumber);
       (+inputNumber < 4) ? this.temp = inputNumber : this.afterDayFocus();
     } else {
@@ -225,11 +220,20 @@ export class DateInput implements OnChanges {
       } else {
         this.dayValue = (this.temp + inputNumber == '00') ? '01' : this.temp + inputNumber;
       }
-      this.temp = null;
+      this.temp = '';
       this.afterDayFocus();
     }
   }
-
+  // this.year = new YearControl({ value: '', disabled: false }, [Validators.pattern(/^(13|14)\d\d$/)]);
+  // this.month = new MonthControl({ value: '', disabled: false }, [Validators.pattern(/^(0[1-9]|1[0-2])$/)]);
+  // this.day = new DayControl({ value: '', disabled: false }, [Validators.pattern(/^(0[1-9]|1[0-2])$/)]);
+  // selectAll(element: HTMLElement) {
+  //   let selection = window.getSelection();
+  //   let range = document.createRange();
+  //   range.selectNodeContents(element);
+  //   selection.removeAllRanges();
+  //   selection.addRange(range);
+  // }
 }
 
 @NgModule({
