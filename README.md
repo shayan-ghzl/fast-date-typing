@@ -11,7 +11,18 @@ import { FastDateTyping } from 'fast-date-typing';
 ## How to use
 
 ```
-<fast-date-typing [(value)]="'2023-01-01'" [separator]="'/'"></fast-date-typing>
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <fast-date-typing [(value)]="stringDate" [separator]="'/'"></fast-date-typing>
+  `
+})
+export class AppComponent {
+  stringDate = '2023-01-01';
+}
+
 ```
 
 ## How it works

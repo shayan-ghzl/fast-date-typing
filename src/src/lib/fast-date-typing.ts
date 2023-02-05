@@ -98,12 +98,12 @@ export class DateInput implements OnChanges {
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
-        if (this.yearValue != '9999') {
+        if (this.yearValue != '9999' && !isNaN(+this.yearValue)) {
           this.yearValue = (+this.yearValue + 1).toString().padStart(4, '0');
         }
         break;
       case 'ArrowDown':
-        if (this.yearValue != '0001') {
+        if (this.yearValue != '0001' && !isNaN(+this.yearValue)) {
           this.yearValue = (+this.yearValue - 1).toString().padStart(4, '0');
         }
         break;
@@ -146,12 +146,12 @@ export class DateInput implements OnChanges {
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
-        if (this.monthValue != '12') {
+        if (this.monthValue != '12' && !isNaN(+this.monthValue)) {
           this.monthValue = (+this.monthValue + 1).toString().padStart(2, '0');
         }
         break;
       case 'ArrowDown':
-        if (this.monthValue != '01') {
+        if (this.monthValue != '01' && !isNaN(+this.monthValue)) {
           this.monthValue = (+this.monthValue - 1).toString().padStart(2, '0');
         }
         break;
@@ -187,12 +187,12 @@ export class DateInput implements OnChanges {
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
-        if (this.dayValue != '31') {
+        if (this.dayValue != '31' && !isNaN(+this.dayValue)) {
           this.dayValue = (+this.dayValue + 1).toString().padStart(2, '0');
         }
         break;
       case 'ArrowDown':
-        if (this.dayValue != '01') {
+        if (this.dayValue != '01' && !isNaN(+this.dayValue)) {
           this.dayValue = (+this.dayValue - 1).toString().padStart(2, '0');
         }
         break;
