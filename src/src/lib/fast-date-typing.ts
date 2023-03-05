@@ -39,7 +39,7 @@ export class DateInput implements OnChanges {
   @ViewChild('monthInput') monthInputViewChild!: ElementRef<HTMLElement>;
   @ViewChild('dayInput') dayInputViewChild!: ElementRef<HTMLElement>;
 
-  @Input() separator = '/';
+  @Input() separator = '-';
   @Input() value = 'yyyy-mm-dd';
   @Output() valueChange: EventEmitter<string> = new EventEmitter();
 
@@ -51,7 +51,7 @@ export class DateInput implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    let val = this.value.split('-');
+    let val = this.value.split(this.separator);
     this.yearValue = val[0];
     this.monthValue = val[1];
     this.dayValue = val[2];

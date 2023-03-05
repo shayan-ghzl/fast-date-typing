@@ -16,7 +16,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <fast-date-typing [(value)]="stringDate" [separator]="'/'"></fast-date-typing>
+    <fast-date-typing [(value)]="stringDate" [separator]="'-'"></fast-date-typing>
   `
 })
 export class AppComponent {
