@@ -59,7 +59,7 @@ export class DateInput implements OnChanges {
 
   setValue() {
     this.datetimeFocused = false;
-    this.valueChange.emit(this.yearValue + '-' + this.monthValue + '-' + this.dayValue)
+    this.valueChange.emit(this.yearValue + this.separator + this.monthValue + this.separator + this.dayValue)
   }
 
   spanFocus() {
