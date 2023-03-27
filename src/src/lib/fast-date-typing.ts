@@ -95,7 +95,6 @@ export class DateInput implements OnChanges {
   }
 
   yearSet(evt: KeyboardEvent) {
-    console.log(evt);
     evt.preventDefault();
     evt.stopPropagation();
     let inputNumber = evt.key;
@@ -149,7 +148,6 @@ export class DateInput implements OnChanges {
   }
 
   monthSet(evt: KeyboardEvent) {
-    console.log(evt);
     evt.preventDefault();
     evt.stopPropagation();
     let inputNumber = evt.key;
