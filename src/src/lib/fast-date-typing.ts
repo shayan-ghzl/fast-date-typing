@@ -42,6 +42,8 @@ export class DateInput implements OnChanges {
   @Input() separator = '-';
   @Input() value = 'yyyy-mm-dd';
   @Output() valueChange: EventEmitter<string> = new EventEmitter();
+  @Output() dayNextFocus: EventEmitter<any> = new EventEmitter();
+  @Output() yearPrevFocus: EventEmitter<any> = new EventEmitter();
 
   yearValue = 'yyyy';
   monthValue = 'mm';
@@ -49,8 +51,7 @@ export class DateInput implements OnChanges {
   datetimeFocused = false;
   temp = '';
 
-
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges() {
     let val = this.value.split(this.separator);
     this.yearValue = val[0];
     this.monthValue = val[1];
@@ -59,7 +60,7 @@ export class DateInput implements OnChanges {
 
   setValue() {
     this.datetimeFocused = false;
-    this.valueChange.emit(this.yearValue + this.separator + this.monthValue + this.separator + this.dayValue)
+    this.valueChange.emit(this.yearValue + this.separator + this.monthValue + this.separator + this.dayValue);
   }
 
   spanFocus() {
@@ -85,14 +86,16 @@ export class DateInput implements OnChanges {
 
   afterDayFocus() {
     // this.dayInputViewChild.nativeElement.blur();
+    this.dayNextFocus.emit();
   }
 
   beforeYearFocus() {
     // this.yearInputViewChild.nativeElement.blur();
+    this.yearPrevFocus.emit();
   }
 
-
   yearSet(evt: KeyboardEvent) {
+    console.log(evt);
     evt.preventDefault();
     evt.stopPropagation();
     let inputNumber = evt.key;
@@ -107,7 +110,12 @@ export class DateInput implements OnChanges {
           this.yearValue = (+this.yearValue - 1).toString().padStart(4, '0');
         }
         break;
+      case 'Tab':
       case 'ArrowRight':
+        if(evt.shiftKey){
+          this.beforeYearFocus();
+          break;
+        }
         this.focusOnMonth();
         break;
       case 'ArrowLeft':
@@ -141,6 +149,7 @@ export class DateInput implements OnChanges {
   }
 
   monthSet(evt: KeyboardEvent) {
+    console.log(evt);
     evt.preventDefault();
     evt.stopPropagation();
     let inputNumber = evt.key;
@@ -155,7 +164,12 @@ export class DateInput implements OnChanges {
           this.monthValue = (+this.monthValue - 1).toString().padStart(2, '0');
         }
         break;
+      case 'Tab':
       case 'ArrowRight':
+        if(evt.shiftKey){
+          this.focusOnYear();
+          break;
+        }
         this.focusOnDay();
         break;
       case 'ArrowLeft':
@@ -196,14 +210,18 @@ export class DateInput implements OnChanges {
           this.dayValue = (+this.dayValue - 1).toString().padStart(2, '0');
         }
         break;
+      case 'Tab':
       case 'ArrowRight':
+        if(evt.shiftKey){
+          this.focusOnMonth();
+          break;
+        }
         this.afterDayFocus();
         break;
       case 'ArrowLeft':
         this.focusOnMonth();
         break;
     }
-
     if (!/^\d+$/.test(inputNumber)) {
       return;
     }
@@ -224,6 +242,7 @@ export class DateInput implements OnChanges {
       this.afterDayFocus();
     }
   }
+
   // this.year = new YearControl({ value: '', disabled: false }, [Validators.pattern(/^(13|14)\d\d$/)]);
   // this.month = new MonthControl({ value: '', disabled: false }, [Validators.pattern(/^(0[1-9]|1[0-2])$/)]);
   // this.day = new DayControl({ value: '', disabled: false }, [Validators.pattern(/^(0[1-9]|1[0-2])$/)]);
