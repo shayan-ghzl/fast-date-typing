@@ -7,7 +7,7 @@
 //     "forceConsistentCasingInFileNames": true,
 //     "paths": {
 //       "fast-date-typing": [
-//         "dist"
+//         "dist/fast-date-typing"
 //       ]
 //     },
 //     "noImplicitAny": false,
@@ -45,7 +45,7 @@
     "strict": true,
     "paths": {
       "fast-date-typing": [
-        "dist"
+        "dist/fast-date-typing"
       ]
     },
     "noImplicitOverride": true,
