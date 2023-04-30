@@ -106,8 +106,8 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 4200,
-            "host": "192.168.1.190"
+            "port": 8000,
+            "host": "192.168.1.100"
           }
         },
         "extract-i18n": {
