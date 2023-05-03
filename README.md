@@ -16,19 +16,12 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <fast-date-typing [(value)]="stringDate" [separator]="'-'"></fast-date-typing>
+    <fast-date-typing [(value)]="date" [separator]="'-'" [disabled]="fieldDisabled"></fast-date-typing>
   `
 })
 export class AppComponent {
   stringDate = '2023-01-01';
-
-  prevFocusTarget(){
-    // after press shift+tab
-  }
-
-  nextFocusTarget(){
-    // after press tab 
-  }
+  fieldDisabled = false;
 }
 
 ```

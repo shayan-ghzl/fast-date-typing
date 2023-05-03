@@ -6,19 +6,19 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Ng
     <div class="datetime-edit" datetimeformat="M/d/yyyy">
       <div class="datetime-edit-fields-wrapper" (mousemove)="moveMouse()" (click)="moveMouse()">
         <div>
-          <span #yearInput role="spinbutton" contentEditable="true" aria-placeholder="yyyy" aria-valuemin="1000" aria-valuemax="9999" aria-label="Year" tabindex="-1" (focus)="spanFocus()" (blur)="setValue()" (keydown)="yearSet($event)">
+          <span #yearInput role="spinbutton" [contentEditable]="true && !disabled" aria-placeholder="yyyy" aria-valuemin="1000" aria-valuemax="9999" aria-label="Year" tabindex="-1" (focus)="spanFocus()" (blur)="setValue()" (keydown)="yearSet($event)">
             {{yearValue}}
           </span>
         </div>
         <div class="separator">{{separator}}</div>
         <div>
-          <span #monthInput role="spinbutton" contentEditable="true" aria-placeholder="mm" aria-valuemin="1" aria-valuemax="12" aria-label="Month" tabindex="-1" (focus)="spanFocus()" (blur)="setValue()" (keydown)="monthSet($event)">
+          <span #monthInput role="spinbutton" [contentEditable]="true && !disabled" aria-placeholder="mm" aria-valuemin="1" aria-valuemax="12" aria-label="Month" tabindex="-1" (focus)="spanFocus()" (blur)="setValue()" (keydown)="monthSet($event)">
             {{monthValue}}
           </span>
         </div>
         <div class="separator">{{separator}}</div>
         <div>
-          <span #dayInput role="spinbutton" contentEditable="true" aria-placeholder="dd" aria-valuemin="1" aria-valuemax="31" aria-label="Day" tabindex="-1" (focus)="spanFocus()" (blur)="setValue()" (keydown)="daySet($event)">
+          <span #dayInput role="spinbutton" [contentEditable]="true && !disabled" aria-placeholder="dd" aria-valuemin="1" aria-valuemax="31" aria-label="Day" tabindex="-1" (focus)="spanFocus()" (blur)="setValue()" (keydown)="daySet($event)">
             {{dayValue}}
           </span>
         </div>
@@ -31,7 +31,8 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Ng
   host: {
     '[class.datetime-focused]': 'datetimeFocused',
     'tabindex': '0',
-    '(keyup)': 'hostKeyup($event)'
+    '(keyup)': 'hostKeyup($event)',
+    '[attr.disabled]': 'disabled'
   }
 })
 export class DateInput implements OnChanges {
@@ -40,6 +41,7 @@ export class DateInput implements OnChanges {
   @ViewChild('monthInput') monthInputViewChild!: ElementRef<HTMLElement>;
   @ViewChild('dayInput') dayInputViewChild!: ElementRef<HTMLElement>;
 
+  @Input() disabled = false;
   @Input() separator = '-';
   @Input() value = 'yyyy-mm-dd';
   @Output() valueChange: EventEmitter<string> = new EventEmitter();
@@ -62,13 +64,13 @@ export class DateInput implements OnChanges {
   }
 
   setValue() {
-    this.datetimeFocused = false;
+    this.datetimeFocused = false && !this.disabled;
     this.valueChange.emit(this.yearValue + this.separator + this.monthValue + this.separator + this.dayValue);
   }
 
   spanFocus() {
     this.temp = '';
-    this.datetimeFocused = true;
+    this.datetimeFocused = true && !this.disabled;
   }
 
   moveMouse() {
@@ -100,7 +102,7 @@ export class DateInput implements OnChanges {
   }
 
   hostKeyup(evt: any) {
-    if(evt.key == 'Enter'){
+    if (evt.key == 'Enter') {
       this.focusOnYear();
     }
   }
@@ -108,6 +110,9 @@ export class DateInput implements OnChanges {
   yearSet(evt: KeyboardEvent) {
     evt.preventDefault();
     evt.stopPropagation();
+    if (this.disabled) {
+      return;
+    }
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
@@ -158,6 +163,9 @@ export class DateInput implements OnChanges {
   monthSet(evt: KeyboardEvent) {
     evt.preventDefault();
     evt.stopPropagation();
+    if (this.disabled) {
+      return;
+    }
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
@@ -204,6 +212,9 @@ export class DateInput implements OnChanges {
   daySet(evt: KeyboardEvent) {
     evt.preventDefault();
     evt.stopPropagation();
+    if (this.disabled) {
+      return;
+    }
     let inputNumber = evt.key;
     switch (inputNumber) {
       case 'ArrowUp':
