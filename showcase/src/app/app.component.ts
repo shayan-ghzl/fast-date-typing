@@ -7,13 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   date = '1401-10-10';
+  fieldDisabled = false;
+  // prevFocusTarget() {
+  //   console.log('focus on prev element');
+  // }
 
-  prevFocusTarget() {
-    console.log('focus on prev element');
-  }
-
-  nextFocusTarget() {
-    console.log('focus on next element');
-  }
+  // nextFocusTarget() {
+  //   console.log('focus on next element');
+  // }
 
 }

@@ -1,1 +1,3 @@
-<fast-date-typing [(value)]="date" [separator]="'-'" (yearPrevFocus)="prevFocusTarget()" (dayNextFocus)="nextFocusTarget()"></fast-date-typing>
+<fast-date-typing [(value)]="date" [separator]="'-'" [disabled]="fieldDisabled"></fast-date-typing>
+<br>
+<button type="button" (click)="fieldDisabled=!fieldDisabled">Disabled Toggle</button>
