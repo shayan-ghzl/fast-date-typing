@@ -1,6 +1,6 @@
 {
   "name": "fast-date-typing",
-  "version": "0.2.19",
+  "version": "0.2.20",
   "keywords": [
     "angular"
   ],
@@ -15,9 +15,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/shayan-ghzl/fast-date-typing.git"
-  },
-  "publishConfig":{
-    "registry": "https://npm.pkg.github.com"
   },
   "peerDependencies": {
     "@angular/common": ">= 8.0.0",

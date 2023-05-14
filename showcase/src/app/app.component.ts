@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  date = '1401-10-10';
+  date = '2023-10-10';
   fieldDisabled = false;
   // prevFocusTarget() {
   //   console.log('focus on prev element');

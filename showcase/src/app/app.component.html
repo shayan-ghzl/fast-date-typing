@@ -1,3 +1,15 @@
+<h3>This is fast date input:</h3>
 <fast-date-typing [(value)]="date" [separator]="'-'" [disabled]="fieldDisabled"></fast-date-typing>
 <br>
-<button type="button" (click)="fieldDisabled=!fieldDisabled">Disabled Toggle</button>
+<button type="button" class="btn btn-dark" [ngStyle]="{opacity: (fieldDisabled) ? 0.75 : 1}" (click)="fieldDisabled=!fieldDisabled">Disabled Toggle</button>
+<div class="more-links">
+    <div class="row-span">
+        <img src="./assets/images/github.svg" alt="github icon">
+        <a href="https://github.com/shayan-ghzl/fast-date-typing" target="_blank">fast-date-typing github url</a>
+        <span class="badge">(do not forget to give us a star on github)</span>
+    </div>
+    <div class="row-span">
+        <img src="./assets/images/npm.svg" alt="npm icon">
+        <a href="https://www.npmjs.com/package/fast-date-typing" target="_blank">fast-date-typing npm package url</a>
+    </div>
+</div>

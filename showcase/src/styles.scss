@@ -3,4 +3,11 @@ body{
     margin: 0;
     padding: 3rem;
     font-size: 1.5rem;
+    font-family: system-ui;
+    background-color: #dee2e6;
+}
+@media (max-width:576px) {
+    body{
+        padding: 4%;
+    }
 }
